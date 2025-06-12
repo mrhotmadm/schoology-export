@@ -1,0 +1,22 @@
+{
+  "name": "schoology-export",
+  "version": "1.0.0",
+  "description": "A simple tool to export and download all course materials and folders from any Schoology course page.",
+  "keywords": [
+    "schoology",
+    "webscraper",
+    "js-utility"
+  ],
+  "homepage": "https://github.com/mrhotmadm/schoology-export#readme",
+  "bugs": {
+    "url": "https://github.com/mrhotmadm/schoology-export/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrhotmadm/schoology-export.git"
+  },
+  "license": "MIT",
+  "author": "azharr",
+  "type": "commonjs",
+  "main": "index.js"
+}
