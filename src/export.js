@@ -4,7 +4,7 @@ const clientZip = window.clientZip || {};
     clientZip.downloadZip = downloadZip;
 })();
 
-export default exportCourse = async ({ name, materialData }) => {
+export default async ({ name, materialData }) => {
     const files = [];
 
     const accumulateFiles = async (materials, directory='') => {

@@ -92,26 +92,9 @@ export default () => {
         window.postMessage({ type: 'schoology-export-export-trigger' }, '*');
     }, materialsTopBar);
 
-    // Listen for messages from the content script.
-    window.addEventListener('message', event => {
-        if (event.source !== window || event.data?.type?.startsWith('schoology-export')) return;
-
-        // const data = event.data?.data;
-        // console.log('[schoology-export] Received data:', data);
-
-        if (event.data.type === 'schoology-export-open-all-folders') {
-            openAllFoldersButton.textContent = 'Opening Folders...';
-            openAllFoldersButton.disabled = true;
-        };
-
-        if (event.data.type === 'schoology-export-scrape-trigger') {
-            scrapeButton.textContent = 'Scraping...';
-            scrapeButton.disabled = true;
-        };
-
-        if (event.data.type === 'schoology-export-export-trigger') {
-            exportButton.textContent = 'Exporting...';
-            exportButton.disabled = true;
-        };
-    });
+    return {
+        openAllFoldersButton,
+        scrapeButton,
+        exportButton
+    };
 };
