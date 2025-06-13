@@ -46,7 +46,7 @@ const loadModule = async (url, isRawURL = false) => {
             console.log('[schoology-export] Scraped data:', data);
         },
         'schoology-export:export-trigger': async () => {
-            const courseName = document.querySelector('.course-title')?.textContent?.trim() || 'Course';
+            const courseName = document.querySelector('#main-content-wrapper .page-title')?.innerText?.trim() || 'Course';
             const data = JSON.parse(sessionStorage.getItem('schoology-export:data') || '[]');
             if (!data || data.length === 0)
                 return console.warn('[schoology-export] No data found. Please scrape the course materials first.');
