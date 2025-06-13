@@ -53,7 +53,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
                     const docViewerDataScript = extractElement(docViewerHTML, '#main-content-wrapper script');
 
                     // Extract the "custom" metadata from the script tag.
-                    match = docViewerDataScript.innerText.match(/"custom"\s*:\s*"((?:\\.|[^"\\])*)"/);
+                    const match = docViewerDataScript.innerText.match(/"custom"\s*:\s*"((?:\\.|[^"\\])*)"/);
                     if (!match) return;
 
                     const rawObject = match[1]

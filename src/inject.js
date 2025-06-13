@@ -96,11 +96,11 @@ export default () => {
     }, materialsTopBar);
 
     [openAllFoldersButton, scrapeButton, exportButton].forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', e => {
             btn.disabled = true;
 
-            e.target.style.backgroundColor = 'rgb(201 201 201)';
-            e.target.style.color = 'rgb(114 114 114 / 85%)';
+            btn.style.backgroundColor = 'rgb(201 201 201)';
+            btn.style.color = 'rgb(114 114 114 / 85%)';
         });
     });
 
