@@ -17,7 +17,7 @@ const loadModule = async (url, isRawURL = false) => {
 
 (async () => {
     // Utilities
-    const { fetchPageHTML, extractElement, downloadFile } = await loadModule('src/util.js');
+    const util = await loadModule('src/util.js');
 
     // Modules
     const { default: injectUI } = await loadModule('src/inject.js');
@@ -39,11 +39,23 @@ const loadModule = async (url, isRawURL = false) => {
 
     const functions = {
         'schoology-export:open-all-folders': openAllFolders,
-        'schoology-export:scrape-trigger': () => {
-            const data = scrapeCourseMaterials();
+        'schoology-export:scrape-trigger': async () => {
+            const data = await scrapeCourseMaterials(util);
+            sessionStorage.setItem('schoology-export:data', JSON.stringify(data));
+
             console.log('[schoology-export] Scraped data:', data);
         },
-        'schoology-export:export-trigger': exportCourse
+        'schoology-export:export-trigger': async () => {
+            const courseName = document.querySelector('.course-title')?.textContent?.trim() || 'Course';
+            const data = JSON.parse(sessionStorage.getItem('schoology-export:data') || '[]');
+            if (!data || data.length === 0)
+                return console.warn('[schoology-export] No data found. Please scrape the course materials first.');
+
+            await exportCourse({ name: courseName, materialData: data });
+
+            sessionStorage.removeItem('schoology-export:data');
+            console.log('[schoology-export] Exported course data:', courseData);
+        }
     };
 
     // Listen for messages from the content script.
@@ -57,6 +69,5 @@ const loadModule = async (url, isRawURL = false) => {
         await functions[type]();
 
         buttons[type].disabled = false;
-        buttons[type].textContent = type.split(':')[1].replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
     });
 })();

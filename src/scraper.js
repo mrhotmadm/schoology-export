@@ -1,13 +1,13 @@
 // import { fetchPageHTML } from './util';
-export default async (selector = '#course-profile-materials-folders tbody') => {
+export default async (util, selector = '#course-profile-materials-folders tbody') => {
     console.log('[schoology-export] Scraper initialized.');
 
     const courseMaterialList = document.querySelector(selector);
-    await scrapeFolder(courseMaterialList);
+    await scrapeFolder(courseMaterialList, util);
 };
 
 // Can also be applied to the initial course material list.
-export const scrapeFolder = async (folderMaterialList) => {
+export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractElement }) => {
     const materialElements = [...folderMaterialList.children];
 
     const folderData = [];
