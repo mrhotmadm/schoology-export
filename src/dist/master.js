@@ -21,31 +21,42 @@ const loadModule = async (url, isRawURL = false) => {
 
     // Modules
     const { default: injectUI } = await loadModule('src/inject.js');
+    const { openAllFolders } = await loadModule('src/navigation.js');
     const { default: scrapeCourseMaterials } = await loadModule('src/scraper.js');
     const { default: exportCourse } = await loadModule('src/export.js');
 
-    injectUI();
+    const {
+        openAllFoldersButton,
+        scrapeButton,
+        exportButton
+    } = injectUI();
+
+    const buttons = {
+        'schoology-export:open-all-folders': openAllFoldersButton,
+        'schoology-export:scrape-trigger': scrapeButton,
+        'schoology-export:export-trigger': exportButton
+    };
+
+    const functions = {
+        'schoology-export:open-all-folders': openAllFolders,
+        'schoology-export:scrape-trigger': () => {
+            const data = scrapeCourseMaterials();
+            console.log('[schoology-export] Scraped data:', data);
+        },
+        'schoology-export:export-trigger': exportCourse
+    };
 
     // Listen for messages from the content script.
-    window.addEventListener('message', event => {
-        if (event.source !== window || event.data?.type?.startsWith('schoology-export')) return;
+    window.addEventListener('message', async event => {
+        if (event.source !== window || !event.data?.type?.startsWith('schoology-export')) return;
+        const { type } = event.data;
 
         // const data = event.data?.data;
         // console.log('[schoology-export] Received data:', data);
 
-        if (event.data.type === 'schoology-export-open-all-folders') {
-            openAllFoldersButton.textContent = 'Opening Folders...';
-            openAllFoldersButton.disabled = true;
-        };
+        await functions[type]();
 
-        if (event.data.type === 'schoology-export-scrape-trigger') {
-            scrapeButton.textContent = 'Scraping...';
-            scrapeButton.disabled = true;
-        };
-
-        if (event.data.type === 'schoology-export-export-trigger') {
-            exportButton.textContent = 'Exporting...';
-            exportButton.disabled = true;
-        };
+        buttons[type].disabled = false;
+        buttons[type].textContent = type.split(':')[1].replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
     });
 })();

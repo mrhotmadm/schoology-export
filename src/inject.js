@@ -2,7 +2,7 @@ export const createButton = (id, text, { backgroundColor, color, fontSize }, onC
     const btn = document.createElement('button');
     btn.id = id;
     btn.textContent = text;
-    btn.onclick = onClick;
+    btn.addEventListener('click', onClick);
 
     Object.assign(btn.style, {
         alignItems: 'center',
@@ -80,17 +80,29 @@ export default () => {
     const fontSize = '11px';
 
     // Create and append the buttons for each functionality.
-    const openAllFoldersButton = createButton('schoology-export-button', 'Open All Folders', { fontSize }, () => {
-        window.postMessage({ type: 'schoology-export-open-all-folders' }, '*');
+    const openAllFoldersButton = createButton('schoology-export:open-all-folders', 'Open All Folders', { fontSize }, () => {
+        e.target.textContent = 'Opening Folders...';
+        window.postMessage({ type: 'schoology-export:open-all-folders' }, '*');
     }, materialsTopBar);
 
-    const scrapeButton = createButton('schoology-export-scrape-button', 'Scrape Courses Materials', { fontSize }, () => {
-        window.postMessage({ type: 'schoology-export-scrape-trigger' }, '*');
+    const scrapeButton = createButton('schoology-export:scrape-trigger', 'Scrape Course Materials', { fontSize }, () => {
+        e.target.textContent = 'Scraping...';
+        window.postMessage({ type: 'schoology-export:scrape-trigger' }, '*');
     }, materialsTopBar);
 
-    const exportButton = createButton('schoology-export-export-button', 'Export Course Materials', { fontSize }, () => {
-        window.postMessage({ type: 'schoology-export-export-trigger' }, '*');
+    const exportButton = createButton('schoology-export:export-trigger', 'Export Course Materials', { fontSize }, () => {
+        e.target.textContent = 'Exporting...';
+        window.postMessage({ type: 'schoology-export:export-trigger' }, '*');
     }, materialsTopBar);
+
+    [openAllFoldersButton, scrapeButton, exportButton].forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.disabled = true;
+
+            e.target.style.backgroundColor = 'rgb(201 201 201)';
+            e.target.style.color = 'rgb(114 114 114 / 85%)';
+        });
+    });
 
     return {
         openAllFoldersButton,
