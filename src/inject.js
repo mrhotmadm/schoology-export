@@ -80,17 +80,17 @@ export default () => {
     const fontSize = '11px';
 
     // Create and append the buttons for each functionality.
-    const openAllFoldersButton = createButton('schoology-export:open-all-folders', 'Open All Folders', { fontSize }, () => {
+    const openAllFoldersButton = createButton('schoology-export:open-all-folders', 'Open All Folders', { fontSize }, e => {
         e.target.textContent = 'Opening Folders...';
         window.postMessage({ type: 'schoology-export:open-all-folders' }, '*');
     }, materialsTopBar);
 
-    const scrapeButton = createButton('schoology-export:scrape-trigger', 'Scrape Course Materials', { fontSize }, () => {
+    const scrapeButton = createButton('schoology-export:scrape-trigger', 'Scrape Course Materials', { fontSize }, e => {
         e.target.textContent = 'Scraping...';
         window.postMessage({ type: 'schoology-export:scrape-trigger' }, '*');
     }, materialsTopBar);
 
-    const exportButton = createButton('schoology-export:export-trigger', 'Export Course Materials', { fontSize }, () => {
+    const exportButton = createButton('schoology-export:export-trigger', 'Export Course Materials', { fontSize }, e => {
         e.target.textContent = 'Exporting...';
         window.postMessage({ type: 'schoology-export:export-trigger' }, '*');
     }, materialsTopBar);
