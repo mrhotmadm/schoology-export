@@ -20,6 +20,8 @@ After injecting this tool, three buttons are shown above the material list of a 
 
 ![ui](/images/ui.png)
 
+![bookmarklet](/images/bookmarklet.gif)
+
 Only files that are present on the main list or from subfolders opened *atleast* once have been loaded by the Schoology website and can be downloaded. With this said, if one wishes to download all eligible materials in entire course page, every folder must be opened once, which can effortlessly be achieved with the first button. As another example, if one only wants to also export files from just one folder, that folder must be manually opened atleast once. Vice-versa for descendants and sub-folders.
 
 To actually download files, hit the **scrape** button to allow all material pages to be fetched and read by the tool. After it's done (which is visually indicated by the button going back to its normal enabled state), simply hit the **export** button and wait for you fully packaged and organized ZIP file to download!
