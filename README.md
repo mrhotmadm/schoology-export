@@ -12,11 +12,12 @@ Key features:
 Whether you're preparing for the end of a semester or simply want a backup of your course materials, `schoology-export` makes the process quick and hassle-free (both were the reason I created this).
 
 * [Usage](#Usage)
-* [Download & Injection: How do I actually use this?](#Download)
+* [Download & Injection: How do I actually use this?](#download--injection-how-do-i-actually-use-this)
 * [Common Issues](#Common-Issues)
 
 # Usage
-After injecting this tool, three buttons are shown above the material list of a Schoology course page: "Open All Folders", "Scrape Course Materials", and "Export Course Materials".
+After injecting this tool, three buttons are shown above the material list of a Schoology course page:
+
 ![ui](/images/ui.png)
 
 Only files that are present on the main list or from subfolders opened *atleast* once have been loaded by the Schoology website and can be downloaded. With this said, if one wishes to download all eligible materials in entire course page, every folder must be opened once, which can effortlessly be achieved with the first button. As another example, if one only wants to also export files from just one folder, that folder must be manually opened atleast once. Vice-versa for descendants and sub-folders.
