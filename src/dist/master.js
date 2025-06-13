@@ -43,7 +43,7 @@ const loadModule = async (url, isRawURL = false) => {
 
             await exportCourse({ name: courseName, materialData: data });
 
-            // const btn = document.querySelector(selector);
+            // const btn = document.querySelector(`#${selector}`);
             // btn.style.backgroundColor = '#FFFFFF';
             // btn.style.color = 'rgba(0, 0, 0, 0.85)';
 
@@ -59,7 +59,7 @@ const loadModule = async (url, isRawURL = false) => {
 
         await functions[type](type);
         
-        const btn = document.querySelector(type);
+        const btn = document.querySelector(`#${type}`);
         btn.disabled = false;
         btn.innerText = btn.getAttribute('original-text');
         btn.style.filter = 'brightness(1)';
