@@ -40,7 +40,7 @@ For example, if I wanted to export my math class's course materials, I would nav
 To-be documented.
 
 ## As a manual paste
-Navigate to the src/master.js file, copy all the code, and paste it into your DevTools console after clicking "Inspect Element" on the page.
+Navigate to the `src/master.js` file, copy all the code, and paste it into your DevTools console after clicking "Inspect Element" on the page.
 
 # Common Issues
 To-be documented. The "Issues" tab is open for discussion, questions, and suggestions.
