@@ -14,11 +14,9 @@ const loadModule = async (url, isRawURL = false) => {
     return fetchedModule;
 };
 
-
 (async () => {
     // Utilities
     const util = await loadModule('src/util.js');
-    console.log(util)
 
     // Modules
     const { default: injectUI } = await loadModule('src/inject.js');

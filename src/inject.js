@@ -69,31 +69,46 @@ export default () => {
     if (!materialsTopBar)
         return console.warn('[schoology-export] Could not find the course materials top bar. The script may not be running on a course materials page.');
 
-    // Restyle the top space with flexbox.
-    materialsTopBar.style.display = 'flex';
-    materialsTopBar.style.flexWrap = 'wrap';
-    materialsTopBar.style.flexDirection = 'row';
-    materialsTopBar.style.gap = '8px';
     materialsTopBar.style.height = 'auto';
-    materialsTopBar.style.padding = '8px 0';
+    materialsTopBar.style.padding = '10px 0';
 
-    const fontSize = '11px';
+    // Create a wrapper for the UI elements.
+    const wrapper = document.createElement('div');
+    wrapper.id = 'schoology-export:ui-wrapper';
 
+    const title = document.createElement('h2');
+    title.innerText = 'Schoology Export';
+
+    // Create a container for the buttons, using flexbox for layout.
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.flexWrap = 'wrap';
+    buttonContainer.style.flexDirection = 'row';
+    buttonContainer.style.padding = '10px 0';
+    buttonContainer.style.gap = '8px';
+
+    materialsTopBar.appendChild(wrapper);
+    wrapper.appendChild(title);
+    wrapper.appendChild(buttonContainer);
+    
     // Create and append the buttons for each functionality.
-    const openAllFoldersButton = createButton('schoology-export:open-all-folders', 'Open All Folders', { fontSize }, e => {
+    const buttonFontSize = '11px';
+    const buttons = [];
+
+    (createButton('schoology-export:open-all-folders', 'Open All Folders', { buttonFontSize }, e => {
         e.target.textContent = 'Opening Folders...';
         window.postMessage({ type: 'schoology-export:open-all-folders' }, '*');
-    }, materialsTopBar);
+    }, buttonContainer)).push(buttons);
 
-    const scrapeButton = createButton('schoology-export:scrape-trigger', 'Scrape Course Materials', { fontSize }, e => {
+    (createButton('schoology-export:scrape-trigger', 'Scrape Course Materials', { buttonFontSize }, e => {
         e.target.textContent = 'Scraping...';
         window.postMessage({ type: 'schoology-export:scrape-trigger' }, '*');
-    }, materialsTopBar);
+    }, buttonContainer)).push(buttons);
 
-    const exportButton = createButton('schoology-export:export-trigger', 'Export Course Materials', { fontSize }, e => {
+    (createButton('schoology-export:export-trigger', 'Export Course Materials', { buttonFontSize }, e => {
         e.target.textContent = 'Exporting...';
         window.postMessage({ type: 'schoology-export:export-trigger' }, '*');
-    }, materialsTopBar);
+    }, buttonContainer)).push(buttons);
 
     [openAllFoldersButton, scrapeButton, exportButton].forEach(btn => {
         btn.setAttribute('original-text', btn.innerText);
