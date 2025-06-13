@@ -77,7 +77,7 @@ export default () => {
     wrapper.id = 'schoology-export:ui-wrapper';
 
     const title = document.createElement('h2');
-    title.innerText = 'Schoology Export';
+    title.innerText = 'schoology-export';
 
     // Create a container for the buttons, using flexbox for layout.
     const buttonContainer = document.createElement('div');
