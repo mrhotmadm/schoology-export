@@ -96,11 +96,14 @@ export default () => {
     }, materialsTopBar);
 
     [openAllFoldersButton, scrapeButton, exportButton].forEach(btn => {
+        btn.setAttribute('original-text', btn.innerText);
+
         btn.addEventListener('click', e => {
             btn.disabled = true;
 
-            btn.style.backgroundColor = 'rgb(201 201 201)';
-            btn.style.color = 'rgb(114 114 114 / 85%)';
+            // btn.style.backgroundColor = 'rgb(201 201 201)';
+            // btn.style.color = 'rgb(114 114 114 / 85%)';
+            btn.style.filter = 'brightness(0.8)';
         });
     });
 

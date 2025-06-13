@@ -25,17 +25,7 @@ const loadModule = async (url, isRawURL = false) => {
     const { default: scrapeCourseMaterials } = await loadModule('src/scraper.js');
     const { default: exportCourse } = await loadModule('src/export.js');
 
-    const {
-        openAllFoldersButton,
-        scrapeButton,
-        exportButton
-    } = injectUI();
-
-    const buttons = {
-        'schoology-export:open-all-folders': openAllFoldersButton,
-        'schoology-export:scrape-trigger': scrapeButton,
-        'schoology-export:export-trigger': exportButton
-    };
+    injectUI();
 
     const functions = {
         'schoology-export:open-all-folders': openAllFolders,
@@ -45,13 +35,17 @@ const loadModule = async (url, isRawURL = false) => {
 
             console.log('[schoology-export] Scraped data:', data);
         },
-        'schoology-export:export-trigger': async () => {
+        'schoology-export:export-trigger': async selector => {
             const courseName = document.querySelector('#main-content-wrapper .page-title')?.innerText?.trim() || 'Course';
             const data = JSON.parse(sessionStorage.getItem('schoology-export:data') || '[]');
             if (!data || data.length === 0)
                 return console.warn('[schoology-export] No data found. Please scrape the course materials first.');
 
             await exportCourse({ name: courseName, materialData: data });
+
+            // const btn = document.querySelector(selector);
+            // btn.style.backgroundColor = '#FFFFFF';
+            // btn.style.color = 'rgba(0, 0, 0, 0.85)';
 
             sessionStorage.removeItem('schoology-export:data');
             console.log('[schoology-export] Exported course data:', courseData);
@@ -63,11 +57,11 @@ const loadModule = async (url, isRawURL = false) => {
         if (event.source !== window || !event.data?.type?.startsWith('schoology-export')) return;
         const { type } = event.data;
 
-        // const data = event.data?.data;
-        // console.log('[schoology-export] Received data:', data);
-
-        await functions[type]();
-
-        buttons[type].disabled = false;
+        await functions[type](type);
+        
+        const btn = document.querySelector(type);
+        btn.disabled = false;
+        btn.innerText = btn.getAttribute('original-text');
+        btn.style.filter = 'brightness(1)';
     });
 })();
