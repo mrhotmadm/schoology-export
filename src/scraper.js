@@ -3,7 +3,7 @@ export default async (util, selector = '#course-profile-materials-folders tbody'
     console.log('[schoology-export] Scraper initialized.');
 
     const courseMaterialList = document.querySelector(selector);
-    await scrapeFolder(courseMaterialList, util);
+    return await scrapeFolder(courseMaterialList, util);
 };
 
 // Can also be applied to the initial course material list.
