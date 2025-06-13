@@ -76,7 +76,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         // Handle folder/subfolder data
         if (type === 'folder') {
             const subFolderMaterialList = material.querySelector('tbody');
-            materialData.children = subFolderMaterialList ? await scrapeFolder(material.querySelector('tbody')) : 'Folder has not been opened yet.';
+            materialData.children = subFolderMaterialList ? await scrapeFolder(material.querySelector('tbody'), { fetchPageHTML, extractElement }) : 'Folder has not been opened yet.';
         };
 
         folderData.push(materialData);

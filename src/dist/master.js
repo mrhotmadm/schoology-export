@@ -18,6 +18,7 @@ const loadModule = async (url, isRawURL = false) => {
 (async () => {
     // Utilities
     const util = await loadModule('src/util.js');
+    console.log(util)
 
     // Modules
     const { default: injectUI } = await loadModule('src/inject.js');
@@ -48,7 +49,7 @@ const loadModule = async (url, isRawURL = false) => {
             // btn.style.color = 'rgba(0, 0, 0, 0.85)';
 
             sessionStorage.removeItem('schoology-export:data');
-            console.log('[schoology-export] Exported course data:', courseData);
+            console.log('[schoology-export] Exported course data: ' + courseName + '.zip');
         }
     };
 
