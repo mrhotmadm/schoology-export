@@ -59,7 +59,7 @@ const loadModule = async (url, isRawURL = false) => {
 
         await functions[type](type);
         
-        const btn = document.querySelector(`#${type}`);
+        const btn = document.querySelector(`#${type.replace(':', '\\:')}`);
         btn.disabled = false;
         btn.innerText = btn.getAttribute('original-text');
         btn.style.filter = 'brightness(1)';
