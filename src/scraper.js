@@ -17,7 +17,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         // type-document: a document (usually a PDF)
         // type-assignment: an assignment
         // material-row-folder: a folder with materials and possibly subfolders
-        const type = material.querySelector('.attachments-link') ? 'link':
+        const type = (material.classList.contains('type-document') && material.querySelector('.attachments-link')) ? 'link':
             material.classList.contains('type-document') ? 'document' :
             material.classList.contains('type-assignment') ? 'assignment' :
             material.classList.contains('material-row-folder') ? 'folder' : 'other';

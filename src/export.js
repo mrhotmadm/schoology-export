@@ -17,6 +17,7 @@ export default async ({ name, materialData }) => {
                 });
             } else if (type === 'folder') {
                 // Accumulate files from subfolders
+                console.log(`[schoology-export] Entering folder: ${name}`);
                 await accumulateFiles(children, `${directory}${name}/`);
             } else if (type === 'link') {
                 // For links, we can just add the URL as a file with a .url extension (Windows shortcut format, works on Mac too).
@@ -24,6 +25,8 @@ export default async ({ name, materialData }) => {
                     name: `${directory}${name}.url`,
                     input: new Blob([`[InternetShortcut]\nURL=${href}`], { type: 'text/plain' }),
                 });
+            
+                console.log(`[schoology-export] Adding link: ${name} (${href}) in directory: ${directory}`);
             } else {
                 console.warn(`[schoology-export] Unsupported material type: ${type} for ${name}`);
             };
@@ -41,6 +44,6 @@ export default async ({ name, materialData }) => {
 
     link.remove();
     URL.revokeObjectURL(link.href);
-    
+
     return files.length;
 };
