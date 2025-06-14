@@ -8,6 +8,8 @@ export default async ({ name, materialData }) => {
     const files = [];
 
     const accumulateFiles = async (materials, directory='') => {
+        if (!Array.isArray(materials)) return;
+        
         for (const material of materials) {
             const { type, title: name, href, downloadLink: url, ext: extension, children } = material;
     
