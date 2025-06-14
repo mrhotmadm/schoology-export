@@ -9,7 +9,7 @@ export default async ({ name, materialData }) => {
 
     const accumulateFiles = async (materials, directory='') => {
         for (const material of materials) {
-            const { type, title: name, downloadLink: url, ext: extension, children } = material;
+            const { type, title: name, href, downloadLink: url, ext: extension, children } = material;
     
             if (type === 'document') {
                 files.push({
@@ -18,6 +18,14 @@ export default async ({ name, materialData }) => {
             } else if (type === 'folder') {
                 // Accumulate files from subfolders
                 await accumulateFiles(children, `${directory}${name}/`);
+            } else if (type === 'link') {
+                // For links, we can just add the URL as a file with a .url extension (Windows shortcut format, works on Mac too).
+                files.push({
+                    name: `${directory}${name}.url`,
+                    input: new Blob([`[InternetShortcut]\nURL=${href}`], { type: 'text/plain' }),
+                });
+            } else {
+                console.warn(`[schoology-export] Unsupported material type: ${type} for ${name}`);
             };
         };
     };
@@ -30,5 +38,8 @@ export default async ({ name, materialData }) => {
     link.href = URL.createObjectURL(zippedFiles);
     link.download = `${name}.zip`;
     link.click();
+
     link.remove();
+    URL.revokeObjectURL(link.href);
+    console.log(`[schoology-export] Exported ${files.length} files to ${name}.zip`);
 };

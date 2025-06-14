@@ -17,18 +17,21 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         // type-document: a document (usually a PDF)
         // type-assignment: an assignment
         // material-row-folder: a folder with materials and possibly subfolders
-        const type = material.classList.contains('type-document') ? 'document' :
-            material.classList.contains('type-assignment') ? 'assignment':
+        const type = material.querySelector('.attachments-link') ? 'link':
+            material.classList.contains('type-document') ? 'document' :
+            material.classList.contains('type-assignment') ? 'assignment' :
             material.classList.contains('material-row-folder') ? 'folder' : 'other';
         const titleElement = material.querySelector(
-            (type === 'folder' ? '.folder-title' : type === 'document' ? '.attachments-file-name' : '.item-title') + ' a'
-        )
+            (type === 'folder' ? '.folder-title' : type === 'document' ? '.attachments-file-name' :  type === 'link' ? '.attachments-link' : '.item-title') + ' a'
+        );
+
+        console.log(type);
 
         const materialData = {
             type, title: titleElement.innerText.trimEnd(), href: titleElement.href,
         };
 
-        // Handle document source/download links
+        // Handle document source/download links (includes PDFs, images, links, etc.)
         if (type === 'document') {
             await fetchPageHTML(materialData.href, async docPageHTML => {
                 if (!docPageHTML) return;
@@ -77,6 +80,13 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         if (type === 'folder') {
             const subFolderMaterialList = material.querySelector('tbody');
             materialData.children = subFolderMaterialList ? await scrapeFolder(material.querySelector('tbody'), { fetchPageHTML, extractElement }) : 'Folder has not been opened yet.';
+        };
+
+        // Handle links
+        if (type === 'link') {
+            const linkElement = material.querySelector('.attachments-link a'); // The literal redirect/link to the resource.
+            const searchParams = new URLSearchParams(linkElement.href);
+            materialData.href = searchParams.get('path'); // The actual resource URL.
         };
 
         folderData.push(materialData);
