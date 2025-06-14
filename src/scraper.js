@@ -37,6 +37,16 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
             materialData.type = 'embedded_page';
             materialData.title = elem.innerText.trimEnd();
             materialData.href = elem.href;
+
+            await fetchPageHTML(materialData.href, async docPageHTML => {
+                if (!docPageHTML) return console.warn(`[schoology-export] Failed to fetch embedded page HTML for: ${materialData.title}`);
+                
+                // Extract the content of the embedded page.
+                const iframeEmbed = extractElement(text.replaceAll('<!--', '').replaceAll('-->', ''), 'iframe'); // Remove all HTML comments (done by Schoology frontend).
+                if (!iframeEmbed) return console.warn(`[schoology-export] No content found in embedded page: ${materialData.title}`);
+
+                materialData.href = iframeEmbed.src; // The actual source of the embedded page.
+            });
         } else if (materialData.title === null) return console.warn(`[schoology-export] Unsupported material: ${material}`);
 
         // Handle document source/download links (includes PDFs, images, links, etc.)
