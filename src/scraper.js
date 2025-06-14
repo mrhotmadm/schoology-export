@@ -26,7 +26,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         );
 
         const materialData = {
-            type, title: titleElement?.innerText.trimEnd(), href: titleElement.href,
+            type, title: titleElement?.innerText.trimEnd(), href: titleElement?.href,
         };
 
         // Handle embedded pages
