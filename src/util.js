@@ -14,7 +14,6 @@ export const checkRateLimit = async () => {
             await new Promise(resolve => setTimeout(resolve, 5000));
             requestCount = 0;
         };
-        console.log({timeSinceLastRequest, requestCount});
     };
 };
 
