@@ -6,7 +6,7 @@ export const openAllFolders = async () => {
             if (!folder.classList.contains('schoology-export-opened')) {
                 folder.classList.add('schoology-export-opened');
                 const folderExpander = folder.querySelector('.folder-expander')
-                if (!folderExpander) return; // Empty folder, nothing to expand
+                if (!folderExpander) continue; // Empty folder, nothing to expand
 
                 folderExpander.click();
                 allOpened = false;
