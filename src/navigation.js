@@ -5,7 +5,10 @@ export const openAllFolders = async () => {
         for (const folder of folderElements) {
             if (!folder.classList.contains('schoology-export-opened')) {
                 folder.classList.add('schoology-export-opened');
-                folder.querySelector('.folder-expander').click();
+                const folderExpander = folder.querySelector('.folder-expander')
+                if (!folderExpander) return; // Empty folder, nothing to expand
+
+                folderExpander.click();
                 allOpened = false;
                 // Wait for the folder to open before continuing
                 await new Promise(resolve => setTimeout(resolve, 1000));
