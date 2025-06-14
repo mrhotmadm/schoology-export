@@ -42,7 +42,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
                 if (!docPageHTML) return console.warn(`[schoology-export] Failed to fetch embedded page HTML for: ${materialData.title}`);
                 
                 // Extract the content of the embedded page.
-                const iframeEmbed = extractElement(text.replaceAll('<!--', '').replaceAll('-->', ''), 'iframe'); // Remove all HTML comments (done by Schoology frontend).
+                const iframeEmbed = extractElement(docPageHTML.replaceAll('<!--', '').replaceAll('-->', ''), 'iframe'); // Remove all HTML comments (done by Schoology frontend).
                 if (!iframeEmbed) return console.warn(`[schoology-export] No content found in embedded page: ${materialData.title}`);
 
                 materialData.href = iframeEmbed.src; // The actual source of the embedded page.
