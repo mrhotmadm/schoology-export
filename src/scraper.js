@@ -26,8 +26,18 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         );
 
         const materialData = {
-            type, title: titleElement.innerText.trimEnd(), href: titleElement.href,
+            type, title: titleElement?.innerText.trimEnd(), href: titleElement.href,
         };
+
+        // Handle embedded pages
+        if (materialData.title === null && material.innerText.includes('Embedded Page')) {
+            const elem = material.querySelector('.document-body-title a');
+            if (!elem) return console.warn(`[schoology-export] No embedded page link found for material: ${material}`);
+
+            materialData.type = 'embedded_page';
+            materialData.title = elem.innerText.trimEnd();
+            materialData.href = elem.href;
+        } else if (materialData.title === null) return console.warn(`[schoology-export] Unsupported material: ${material}`);
 
         // Handle document source/download links (includes PDFs, images, links, etc.)
         if (type === 'document') {

@@ -15,6 +15,8 @@ export default async ({ name, materialData }) => {
                 files.push({
                     name: `${directory}${name}.${extension}`, input: await fetch(url),
                 });
+
+                console.log(`[schoology-export] Adding document: ${name} (${url}) in directory: ${directory}`);
             } else if (type === 'folder') {
                 // Accumulate files from subfolders
                 console.log(`[schoology-export] Entering folder: ${name}`);
@@ -27,6 +29,14 @@ export default async ({ name, materialData }) => {
                 });
             
                 console.log(`[schoology-export] Adding link: ${name} (${href}) in directory: ${directory}`);
+            } else if (type === 'embedded_page') {
+                // For embedded pages, we can just add the URL as a file with a .html extension.
+                files.push({
+                    name: `${directory}${name}.html`,
+                    input: new Blob([`<html><head><title>${name}</title></head><body><iframe src="${href}" style="width:100%; height:100%;"></iframe></body></html>`], { type: 'text/html' }),
+                });
+                
+                console.log(`[schoology-export] Adding embedded page: ${name} (${href}) in directory: ${directory}`);
             } else {
                 console.warn(`[schoology-export] Unsupported material type: ${type} for ${name}`);
             };
