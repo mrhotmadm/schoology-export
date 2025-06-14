@@ -1,6 +1,6 @@
 # What is `schoology-export`?
 
-`schoology-export` automates the process of collecting resources, assignments, and files from your Schoology courses. With just a few clicks, you can save an entire course's content to your local device for offline access, backup, or migration via an organized ZIP file
+`schoology-export` automates the process of collecting resources, assignments, and files from your Schoology courses. With just a few clicks, you can save an entire course's content to your local device for offline access, backup, or migration via an organized ZIP file.
 
 Key features:
 - Exports all files, folders, and resources from a Schoology course
