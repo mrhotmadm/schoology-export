@@ -37,8 +37,10 @@ const loadModule = async (url, isRawURL = false) => {
         'schoology-export:export-trigger': async selector => {
             const courseName = document.querySelector('#main-content-wrapper .page-title')?.innerText?.trim() || 'Course';
             const data = JSON.parse(sessionStorage.getItem('schoology-export:data') || '[]');
-            if (!data || data.length === 0)
+            if (!data || data.length === 0) {
+                alert('No data found. Please scrape the course materials first using the middle button.');
                 return console.warn('[schoology-export] No data found. Please scrape the course materials first.');
+            };
 
             const fileCount = await exportCourse({ name: courseName, materialData: data });
 
