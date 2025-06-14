@@ -30,7 +30,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         };
 
         // Handle embedded pages
-        if (materialData.title === null && material.innerText.includes('Embedded Page')) {
+        if (!materialData.title && material.innerText.includes('Embedded Page')) {
             const elem = material.querySelector('.document-body-title a');
             if (!elem) return console.warn(`[schoology-export] No embedded page link found for material: ${material}`);
 
