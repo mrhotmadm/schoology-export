@@ -104,7 +104,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         if (type === 'link') {
             const linkElement = material.querySelector('.attachments-link a'); // The literal redirect/link to the resource.
             const searchParams = new URLSearchParams(linkElement.href);
-            materialData.href = searchParams.get('path'); // The actual resource URL.
+            materialData.href = searchParams.get('path') || linkElement.href; // The actual resource URL.
         };
 
         folderData.push(materialData);
