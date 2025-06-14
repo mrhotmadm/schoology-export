@@ -41,5 +41,6 @@ export default async ({ name, materialData }) => {
 
     link.remove();
     URL.revokeObjectURL(link.href);
-    console.log(`[schoology-export] Exported ${files.length} files to ${name}.zip`);
+    
+    return files.length;
 };

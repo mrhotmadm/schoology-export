@@ -25,8 +25,6 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
             (type === 'folder' ? '.folder-title' : type === 'document' ? '.attachments-file-name' :  type === 'link' ? '.attachments-link' : '.item-title') + ' a'
         );
 
-        console.log(type);
-
         const materialData = {
             type, title: titleElement.innerText.trimEnd(), href: titleElement.href,
         };

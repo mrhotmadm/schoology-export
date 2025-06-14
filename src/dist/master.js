@@ -40,14 +40,14 @@ const loadModule = async (url, isRawURL = false) => {
             if (!data || data.length === 0)
                 return console.warn('[schoology-export] No data found. Please scrape the course materials first.');
 
-            await exportCourse({ name: courseName, materialData: data });
+            const fileCount = await exportCourse({ name: courseName, materialData: data });
 
             // const btn = document.querySelector(`#${selector}`);
             // btn.style.backgroundColor = '#FFFFFF';
             // btn.style.color = 'rgba(0, 0, 0, 0.85)';
 
             sessionStorage.removeItem('schoology-export:data');
-            console.log('[schoology-export] Exported course data: ' + courseName + '.zip');
+            console.log(`[schoology-export] Exported ${fileCount} files to ${name}.zip`);
         }
     };
 
