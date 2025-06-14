@@ -38,7 +38,7 @@ export default async ({ name, materialData }) => {
                 
                 console.log(`[schoology-export] Adding embedded page: ${name} (${href}) in directory: ${directory}`);
             } else {
-                console.warn(`[schoology-export] Unsupported material type: ${type} for ${name}`);
+                console.warn(`[schoology-export] Unsupported material type: ${type} for ${name}; material = ${JSON.stringify(material)}`);
             };
         };
     };
