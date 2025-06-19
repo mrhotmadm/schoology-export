@@ -11,7 +11,7 @@ export default async ({ name, materialData }) => {
         if (!Array.isArray(materials)) return;
         
         for (const material of materials) {
-            const { type, title: name, href, downloadLink: url, ext: extension, children } = material;
+            const { type, title: name, href, downloadLink: url, ext: extension, children, content } = material;
     
             if (type === 'document') {
                 files.push({
@@ -40,10 +40,10 @@ export default async ({ name, materialData }) => {
                 
                 console.log(`[schoology-export] Adding embedded page: ${name} (${href}) in directory: ${directory}`);
             } else if (type === 'page') {
-                if (!materialData.content) continue;
+                if (!content) continue;
                 files.push({
                     name: `${directory}${name}.html`,
-                    input: new Blob([`<html><head><title>${name}</title></head><body>${materialData.content}</body></html>`], { type: 'text/html' }),
+                    input: new Blob([`<html><head><title>${name}</title></head><body>${content}</body></html>`], { type: 'text/html' }),
                 });
 
                 console.log(`[schoology-export] Adding page: ${name} (${href}) in directory: ${directory}`);
