@@ -39,6 +39,14 @@ export default async ({ name, materialData }) => {
                 });
                 
                 console.log(`[schoology-export] Adding embedded page: ${name} (${href}) in directory: ${directory}`);
+            } else if (type === 'page') {
+                if (!materialData.content) continue;
+                files.push({
+                    name: `${directory}${name}.html`,
+                    input: new Blob([`<html><head><title>${name}</title></head><body>${materialData.content}</body></html>`], { type: 'text/html' }),
+                });
+
+                console.log(`[schoology-export] Adding page: ${name} (${href}) in directory: ${directory}`);
             } else {
                 console.warn(`[schoology-export] Unsupported material type: ${type} for ${name}; material = ${JSON.stringify(material)}`);
             };

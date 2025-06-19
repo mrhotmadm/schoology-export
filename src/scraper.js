@@ -19,6 +19,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
         // material-row-folder: a folder with materials and possibly subfolders
         const type = (material.classList.contains('type-document') && material.querySelector('.attachments-link')) ? 'link':
             material.classList.contains('type-document') ? 'document' :
+            material.classList.contains('type-page') ? 'page' :
             material.classList.contains('type-assignment') ? 'assignment' :
             material.classList.contains('material-row-folder') ? 'folder' : 'other';
         const titleElement = material.querySelector(
@@ -27,6 +28,14 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
 
         const materialData = {
             type, title: titleElement?.innerText.trimEnd(), href: titleElement?.href,
+        };
+
+        // Handle pages (simple HTML extraction)
+        if (type === 'page') {
+            await fetchPageHTML(materialData.href, async docPageHTML => {
+                const pageContentDiv = extractElement(docPageHTML, '.s-page-content-full');
+                materialData.content = pageContentDiv.innerHTML || false;
+            });
         };
 
         // Handle embedded pages
