@@ -1,35 +1,24 @@
-let previousRequestTime = null;
-let requestCount = 0;
+let requests = []
 
 export const checkRateLimit = async () => {
-    if (previousRequestTime) {
-        const timeSinceLastRequest = Date.now() - previousRequestTime;
-        
-        if (timeSinceLastRequest > 5000) {
-            // Reset if last request was more than 5 seconds ago
-            previousRequestTime = null;
-            requestCount = 0;
-        } else if (requestCount >= 10) { // max 10 requests for precaution
-            console.warn(`[schoology-export] Cautionary rate limit exceeded. Waiting for 5 seconds...`);
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            requestCount = 0;
-        };
-    };
+    requests.push(Date.now())
+    if (requests.length <= 15) return; // Less than 15 requests in history
+    const fifteenRequestsAgo = Date.now() - requests.shift();
+    if (fifteenRequestsAgo < 5000) return; // Less than 15 requests in last 5 seconds
+    // Wait until 15th request made is older than 5 seconds => less than 15 requests in last 5 seconds
+    await new Promise(resolve => setTimeout(resolve, 5000 - fifteenRequestsAgo)); 
 };
 
 export const fetchPageHTML = async (url, callback = () => {}, delayMs = 250) => {
     await new Promise(resolve => setTimeout(resolve, delayMs));
 
-    // Rate limiting to avoid overwhelming the server (prediction: 15 requests per 5 seconds)
+    // Avoid 429 response
     await checkRateLimit();
 
     try {
         const response = await fetch(url, {
             method: 'GET',
             // credentials: 'include'
-        }).finally(() => {
-            requestCount++;
-            previousRequestTime = Date.now();
         });
 
         const text = await response.text();
