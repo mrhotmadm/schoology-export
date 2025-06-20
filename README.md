@@ -1,48 +1,46 @@
 # What is `schoology-export`?
 
-`schoology-export` automates the process of collecting resources, assignments, and files from your Schoology courses. With just a few clicks, you can save an entire course's content to your local device for offline access, backup, or migration via an organized ZIP file.
+`schoology-export` automates collecting resources, assignments, and files from your Schoology courses. With a few clicks, save an entire course’s content to your device as an organized ZIP file for offline access, backup, or migration.
 
-Key features:
+**Key features:**
 - Exports all files, folders, and resources from a Schoology course
-- Organizes downloaded content to match the course structure
-- Runs entirely in your browser; no server or installation required
-- Simple, user-friendly interface
-- Efficient downloads
+- Keeps downloaded content organized to match the course layout
+- Runs entirely in your browser—no installation or server needed
+- Simple, intuitive interface
+- Fast and efficient downloads
 
-Whether you're preparing for the end of a semester or simply want a backup of your course materials, `schoology-export` makes the process quick and hassle-free (both were the reason I created this).
+Whether you’re wrapping up a semester or want a backup, `schoology-export` makes it quick and easy (which is why I created it).
 
-* [Usage](#Usage)
-* [Download & Injection: How do I actually use this?](#download--injection-how-do-i-actually-use-this)
-* [Common Issues](#Common-Issues)
+* [How to Use](#how-to-use)
+* [Setup & Running the Script](#setup--running-the-script)
+* [Troubleshooting](#troubleshooting)
 
-# Usage
-After injecting this tool, three buttons are shown above the material list of a Schoology course page:
+# How to Use
+After running the tool, three buttons appear above the course materials list:
 
 ![ui](/images/ui.png)
 
-Only files that are present on the main list or from subfolders opened *atleast* once have been loaded by the Schoology website and can be downloaded. With this said, if one wishes to download all eligible materials in entire course page, every folder must be opened once, which can effortlessly be achieved with the first button. As another example, if one only wants to also export files from just one folder, that folder must be manually opened atleast once. Vice-versa for descendants and sub-folders.
+Only files visible on the main list, folders, and subfolders _(you’ve opened at least once)_ can be downloaded. To download everything, open every folder once, which can be done easily with the first button (leftside). To include files from a specific folder _alone_, open just that folder once.
 
-To actually download files, hit the **scrape** button to allow all material pages to be fetched and read by the tool. After it's done (which is visually indicated by the button going back to its normal enabled state), simply hit the **export** button and wait for you fully packaged and organized ZIP file to download!
+Next, click the **scrape** button to load all material pages. When it finishes (the button returns to normal), click **export** to download a fully packaged and organized ZIP file.
 
-# Download & Injection: How do I actually use this?
-## As a bookmarklet
-A bookmarklet executes JavaScript code directly in the current web page when clicked. It's essentially a bookmark that, instead of opening a new page, runs a script on the existing page.
+# Setup & Running the Script
 
-Create a new bookmark of this page (or edit an existing bookmark) and paste this into the "Address:" or "URL:" field:
+## Bookmarklet
+Create a bookmark and paste this into the URL/address field:
 ```js
 javascript: fetch("https://raw.githubusercontent.com/mrhotmadm/schoology-export/refs/heads/main/src/dist/master.js").then(t=>t.text()).then(eval);
 ```
+Use this bookmark on any Schoology course page to activate the tool with one click.
 
+GIF Example:
 ![bookmarklet](/images/bookmarklet.gif)
 
-To use the script as a bookmark (yes, with the "javascript: "); run it with a single click while on a Schoology course page.
-For example, if I wanted to export my math class's course materials, I would navigate to its course page then click the bookmark(let).
+## Userscript (Tampermonkey)
+To be created and documented.
 
-## As a userscript (Tampermonkey)
-To-be documented.
+## Manual Paste
+Copy the code from src/master.js and paste it into the browser’s DevTools console on a Schoology course page.
 
-## As a manual paste
-Navigate to the `src/master.js` file, copy all the code, and paste it into your DevTools console after clicking "Inspect Element" on the page.
-
-# Common Issues
-To-be documented. The "Issues" tab is open for discussion, questions, and suggestions.
+# Troubleshooting
+To be documented. Use the "Issues" tab for questions and suggestions.
