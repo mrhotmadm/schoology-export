@@ -33,7 +33,8 @@ javascript: fetch("https://raw.githubusercontent.com/mrhotmadm/schoology-export/
 ```
 Use this bookmark on any Schoology course page to activate the tool with one click.
 
-GIF Example:
+**GIF Example:**
+
 ![bookmarklet](/images/bookmarklet.gif)
 
 ## Userscript (Tampermonkey)
