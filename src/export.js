@@ -11,9 +11,9 @@ export default async ({ name, materialData }) => {
         if (!Array.isArray(materials)) return;
         
         for (const material of materials) {
-            const { type, title: name, href, downloadLink: url, ext: extension, children, content } = material;
+            const { type, title: name, href, downloadLink: url, ext: extension, children, content, images } = material;
     
-            if (type === 'document') {
+            if (type === 'document') { // Doesn't necessarily have to be a literal document; it's just Schoology's classification.
                 files.push({
                     name: `${directory}${name}.${extension}`, input: await fetch(url),
                 });
@@ -41,6 +41,26 @@ export default async ({ name, materialData }) => {
                 console.log(`[schoology-export] Adding embedded page: ${name} (${href}) in directory: ${directory}`);
             } else if (type === 'page') {
                 if (!content) continue;
+                if (images.length > 0) {
+                    let index = 0;
+                    for (const imageSrc of images) {
+                        const fileExtension = imageSrc.split('.').pop();
+                        const newImageName = `image${index}.${fileExtension}`;
+
+                        // 1) Download all images embedded in the page.
+                        files.push({ name: `${directory}${newImageName}`, input: await fetch(imageSrc) });
+                        index++;
+
+                        // 2) Replace image sources to local files
+                        const newImagePath = './' + newImageName;
+                        const schoologyRegex = /^https:\/\/(?:[a-zA-Z0-9-]+\.)?schoology\.com/; 
+
+                        content = content
+                            .replaceAll(imageSrc, newImagePath) // case 1: exact match
+                            .replaceAll(imageSrc.replace(schoologyRegex, ''), newImagePath); // case 2: with schoology domain removed
+                    };
+                };
+
                 files.push({
                     name: `${directory}${name}.html`,
                     input: new Blob([`<html><head><title>${name}</title></head><body>${content}</body></html>`], { type: 'text/html' }),

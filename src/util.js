@@ -1,4 +1,4 @@
-let requests = []
+let requests = [];
 
 export const checkRateLimit = async () => {
     requests.push(Date.now())
@@ -33,8 +33,4 @@ export const extractElement = (html, selector) => {
     // Using DOMParser to extract elements from the HTML
     const doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.querySelector(selector);
-};
-
-export const downloadFile = (url, filename) => {
-    window.open(url, filename);
 };

@@ -35,6 +35,7 @@ export const scrapeFolder = async (folderMaterialList, { fetchPageHTML, extractE
             await fetchPageHTML(materialData.href, async docPageHTML => {
                 const pageContentDiv = extractElement(docPageHTML, '.s-page-content-full');
                 materialData.content = pageContentDiv.innerHTML || false;
+                materialData.images = [...pageContentDiv.querySelectorAll('img')].map(image => image.src);
             });
         };
 
