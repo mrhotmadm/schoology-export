@@ -42,10 +42,14 @@ export default async ({ name, materialData }) => {
             } else if (type === 'page') {
                 if (!content) continue;
                 if (images.length > 0) {
+                    const normalizerRegex = /[^a-zA-Z0-9]/g;
+                    const schoologyRegex = /^https:\/\/(?:[a-zA-Z0-9-]+\.)?schoology\.com/; 
+
                     let index = 0;
                     for (const imageSrc of images) {
                         const fileExtension = imageSrc.split('.').pop();
-                        const newImageName = `image${index}.${fileExtension}`;
+                        const normalizedName = name.replace(normalizerRegex, '');
+                        const newImageName = `${normalizedName}_image${index}.${fileExtension}`;
 
                         // 1) Download all images embedded in the page.
                         files.push({ name: `${directory}${newImageName}`, input: await fetch(imageSrc) });
@@ -53,7 +57,6 @@ export default async ({ name, materialData }) => {
 
                         // 2) Replace image sources to local files
                         const newImagePath = './' + newImageName;
-                        const schoologyRegex = /^https:\/\/(?:[a-zA-Z0-9-]+\.)?schoology\.com/; 
 
                         content = content
                             .replaceAll(imageSrc, newImagePath) // case 1: exact match
