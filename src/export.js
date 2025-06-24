@@ -11,7 +11,7 @@ export default async ({ name, materialData }) => {
         if (!Array.isArray(materials)) return;
         
         for (const material of materials) {
-            const { type, title: name, href, downloadLink: url, ext: extension, children, content, images } = material;
+            const { type, title: name, href, downloadLink: url, ext: extension, children, images } = material;
     
             if (type === 'document') { // Doesn't necessarily have to be a literal document; it's just Schoology's classification.
                 files.push({
@@ -58,7 +58,7 @@ export default async ({ name, materialData }) => {
                         // 2) Replace image sources to local files
                         const newImagePath = './' + newImageName;
 
-                        content = content
+                        material.content = material.content
                             .replaceAll(imageSrc, newImagePath) // case 1: exact match
                             .replaceAll(imageSrc.replace(schoologyRegex, ''), newImagePath); // case 2: with schoology domain removed
                     };
@@ -66,7 +66,7 @@ export default async ({ name, materialData }) => {
 
                 files.push({
                     name: `${directory}${name}.html`,
-                    input: new Blob([`<html><head><title>${name}</title></head><body>${content}</body></html>`], { type: 'text/html' }),
+                    input: new Blob([`<html><head><title>${name}</title></head><body>${material.content}</body></html>`], { type: 'text/html' }),
                 });
 
                 console.log(`[schoology-export] Adding page: ${name} (${href}) in directory: ${directory}`);
